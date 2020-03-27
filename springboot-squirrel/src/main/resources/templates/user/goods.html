@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>个人中心</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+    <script type="text/javascript" th:src="@{/js/materialize.min.js}" ></script>
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/emoji.css}" />
+    <link rel="stylesheet" th:href="@{/css/userhome.css}" />
+    <link rel="stylesheet" th:href="@{/css/user.css}" />
+    <link rel="stylesheet" th:href="@{/css/materialize-icon.css}" />
+    <script type="text/javascript" th:src="@{/js/index.bundle.js}" ></script>
+    <script type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/bootstrap/bootstrap.min.css}" />
+    <script type="text/javascript" th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="pre-2" id="big_img">
+    <img th:src="@{http://findfun.oss-cn-shanghai.aliyuncs.com/images/head_loading.gif}" class="jcrop-preview jcrop_preview_s" />
+</div>
+<div id="cover" style="min-height: 1000px;">
+    <div id="user_area">
+        <div id="home_header">
+            <a th:href="@{/goods/homeGoods}">
+                <h1 class="logo"></h1>
+            </a>
+            <a th:href="@{/user/home}">
+                <div class="home"></div>
+            </a>
+        </div>
+        <!--
+            描述：左侧个人中心栏
+        -->
+        <div id="user_nav">
+            <div class="user_info">
+                <div class="head_img">
+                    <img th:src="@{/img/photo.jpg}" />
+                </div>
+                <div class="big_headimg">
+                    <img src="" />
+                </div>
+                <span class="name" th:text="${cur_user.username}"></span>
+
+                <span class="name" th:text="'闲置数量：'+${cur_user.goodsNum}"></span>
+                <span class="fa fa-share-alt">"快去分享一下"</span>
+            </div>
+            <div class="home_nav">
+                <ul>
+                    <a href="">
+                        <li class="notice">
+                            <div></div>
+                            <span class="glyphicon glyphicon-comment"> 我的消息</span>
+                            <strong></strong>
+                        </li>
+                    </a>
+                    <a href="">
+                        <li class="fri">
+                            <div></div>
+                            <span class="glyphicon glyphicon-plus"> 关注列表</span>
+                            <strong></strong>
+                        </li>
+                    </a>
+                    <a href="/user/basic">
+                        <li class="set">
+                            <div></div>
+                            <span class="glyphicon glyphicon-cog"> 个人设置</span>
+                            <strong></strong>
+                        </li>
+                    </a>
+                    <a href="/goods/publishGoods">
+                        <li class="store">
+                            <div></div>
+                            <span class="glyphicon glyphicon-log-out"> 发布物品</span>
+                            <strong></strong>
+                        </li>
+                    </a>
+                    <a href="/user/allGoods">
+                        <li class="second">
+                            <div></div>
+                            <span class="glyphicon glyphicon-folder-close"> 我的闲置</span>
+                            <strong></strong>
+                        </li>
+                    </a>
+                    <a href="/user/selectcargoods">
+                        <li class="car">
+                            <div></div>
+                            <span class="glyphicon glyphicon-shopping-cart"> 购物车</span>
+                            <strong></strong>
+                        </li>
+                    </a>
+                    <a href="/user/mybuyed">
+                        <li class="my">
+                            <div></div>
+                            <span class="glyphicon glyphicon-gift"> 我购买的</span>
+                            <strong></strong>
+                        </li>
+                    </a>
+                    <a href="/user/selledgoods">
+                        <li class="shelled">
+                            <div></div>
+                            <span class="glyphicon glyphicon-th-list"> 我卖出的</span>
+                            <strong></strong>
+                        </li>
+                    </a>
+                </ul>
+            </div>
+        </div>
+        <!--
+            描述：右侧内容区域
+        -->
+        <div id="user_content">
+            <div class="share">
+                <!--
+                    描述：闲置商品展示
+                -->
+                <div class="waterfoo stark-components row" th:if="${goodsAndImage != null}">
+                    <div class="item-wrapper normal" th:each="item : ${goodsAndImage}">
+                        <div class="card col">
+                            <p class="item-id" th:text="${item.goods.id}" style="display: none"></p>
+                            <a th:href="@{'/goods/goodsId/'+${item.goods.id}}">
+                                <div class="card-image">
+                                    <!--<img th:src="@{/upload/${item.images[0].imgUrl}}" />-->
+                                    <img th:src="@{'/upload/'+${item.images[0].imgUrl}}" />
+                                </div>
+                            </a>
+                                <div class="card-content item-price" th:text="${item.goods.price}"></div>
+                                <div class="card-content item-name">
+                                    <span  th:text="${item.goods.name}"></span>
+                                    <span  style="float: right"  class="time" th:text="${item.goods.startTime}"> </span>
+                                </div>
+                                <div class="interact">
+                                <span class="fa fa-heart">
+                                <a th:href="@{'/goods/editGoods/'+${item.goods.id}}">编辑</a>
+                                </span>
+                                <span class="fa fa-share"><a href="">  擦亮</a></span>
+                                <span class="fa fa-commenting">
+                                <a th:text="${item.goods.commetNum}"></a>
+                                </span>
+                                <span class="fa fa-trash">
+                                <a th:href="@{'/goods/deleteGoods/'+${item.goods.id}}"> 删除</a>
+                                </span>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="share_content" th:if="${goodsAndImage.size()== 0}">
+                    <div class="no_share">
+                        <span>没有任何内容，去逛逛其它的吧！</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
